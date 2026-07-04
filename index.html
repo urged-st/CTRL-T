@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>CTRL-T</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="bg-layer"></div>
+
+	<div class="grid">
+
+		<header class="bar bar-top">
+			<span class="tag">CTRL+T</span>
+			<div class="modes" role="group" aria-label="background mode">
+				<button class="mode-btn active" data-mode="block">[BLOCK]</button>
+				<button class="mode-btn" data-mode="apod">[APOD]</button>
+				<button class="mode-btn" data-mode="library">[NASA.LIB]</button>
+			</div>
+		</header>
+
+		<footer class="bar bar-bottom" id="info-strip">
+			<span id="info-text">MODE: BLOCK — NO SOURCE DATA</span>
+		</footer>
+
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>
