@@ -1,6 +1,78 @@
 const NASA_API_KEY = "DEMO_KEY";
 const LIBRARY_QUERIES = ["nebula", "galaxy", "supernova", "mars", "black hole", "aurora"];
 
+// search bar w google
+document.getElementById("search-form").addEventListener("submit", function (e)
+{
+	e.preventDefault();
+	const q = document.getElementById("search-input").value.trim();
+	if (!q) return;
+	window.location.href = `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+});
+
+// quick links w localStorage
+function loadLinks()
+{
+	const raw = localStorage.getItem("ctrlt-links");
+	return raw ? JSON.parse(raw) : [
+		{ label: "GITHUB", url: "https://github.com" },
+		{ label: "MAIL", url: "https://mail.google.com" }
+	];
+}
+
+function saveLinks(links)
+{
+	localStorage.setItem("ctrlt-links", JSON.stringify(links));
+}
+
+function renderLinks()
+{
+	const list = document.getElementById("links-list");
+	list.innerHTML = "";
+	const links = loadLinks();
+
+	links.forEach(function (link, i)
+	{
+		const chip = document.createElement("a");
+		chip.className = "link-chip";
+		chip.href = link.url;
+		chip.textContent = link.label;
+
+		// x to remove a link
+		const remove = document.createElement("span");
+		remove.className = "remove";
+		remove.textContent = "×";
+		remove.addEventListener("click", function (e)
+		{
+			e.preventDefault();
+			e.stopPropagation();
+			const updated = loadLinks();
+			updated.splice(i, 1);
+			saveLinks(updated);
+			renderLinks();
+		});
+
+		chip.appendChild(remove);
+		list.appendChild(chip);
+	});
+}
+
+document.getElementById("add-link").addEventListener("click", function ()
+{
+	const label = prompt("LABEL:");
+	if (!label) return;
+	let url = prompt("URL:");
+	if (!url) return;
+	if (!/^https?:\/\//.test(url)) url = "https://" + url;
+
+	const links = loadLinks();
+	links.push({ label: label.toUpperCase(), url: url });
+	saveLinks(links);
+	renderLinks();
+});
+
+renderLinks();
+
 // bg switcher: block w apod w library
 const bgLayer = document.getElementById("bg-layer");
 const infoText = document.getElementById("info-text");
