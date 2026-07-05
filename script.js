@@ -1,6 +1,23 @@
 const NASA_API_KEY = "DEMO_KEY";
 const LIBRARY_QUERIES = ["nebula", "galaxy", "supernova", "mars", "black hole", "aurora"];
 
+// clock
+function tickClock()
+{
+	const now = new Date();
+	const hh = String(now.getHours()).padStart(2, "0");
+	const mm = String(now.getMinutes()).padStart(2, "0");
+	const ss = String(now.getSeconds()).padStart(2, "0");
+
+	document.getElementById("clock").textContent = `${hh}:${mm}`;
+	document.getElementById("clock-seconds").textContent = ss;
+
+	const dateStr = now.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
+	document.getElementById("date-tag").textContent = dateStr;
+}
+setInterval(tickClock, 1000);
+tickClock();
+
 // search bar w google
 document.getElementById("search-form").addEventListener("submit", function (e)
 {
@@ -57,18 +74,35 @@ function renderLinks()
 	});
 }
 
-document.getElementById("add-link").addEventListener("click", function ()
+// + ADD toggles the form, no native prompts (chrome blocks those on newtab pages anyway)
+const linkForm = document.getElementById("link-form");
+const addLinkBtn = document.getElementById("add-link");
+
+addLinkBtn.addEventListener("click", function ()
 {
-	const label = prompt("LABEL:");
-	if (!label) return;
-	let url = prompt("URL:");
-	if (!url) return;
+	linkForm.classList.toggle("hidden");
+	if (!linkForm.classList.contains("hidden")) document.getElementById("link-label-input").focus();
+});
+
+linkForm.addEventListener("submit", function (e)
+{
+	e.preventDefault();
+	const labelInput = document.getElementById("link-label-input");
+	const urlInput = document.getElementById("link-url-input");
+
+	const label = labelInput.value.trim();
+	let url = urlInput.value.trim();
+	if (!label || !url) return;
 	if (!/^https?:\/\//.test(url)) url = "https://" + url;
 
 	const links = loadLinks();
 	links.push({ label: label.toUpperCase(), url: url });
 	saveLinks(links);
 	renderLinks();
+
+	labelInput.value = "";
+	urlInput.value = "";
+	linkForm.classList.add("hidden");
 });
 
 renderLinks();

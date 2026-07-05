@@ -19,7 +19,13 @@
 				<button class="mode-btn" data-mode="apod">[APOD]</button>
 				<button class="mode-btn" data-mode="library">[NASA.LIB]</button>
 			</div>
+			<span class="tag" id="date-tag">--/--/----</span>
 		</header>
+
+		<main class="slab">
+			<div class="clock" id="clock">00:00</div>
+			<div class="clock-sub" id="clock-seconds">00</div>
+		</main>
 
 		<section class="block search-block">
 			<span class="label">[SEARCH]</span>
@@ -31,6 +37,11 @@
 		<section class="block links-block">
 			<span class="label">[LINKS]</span>
 			<div class="links" id="links-list"></div>
+			<form id="link-form" class="link-form hidden">
+				<input type="text" id="link-label-input" placeholder="LABEL" maxlength="12">
+				<input type="text" id="link-url-input" placeholder="URL">
+				<button type="submit">SAVE</button>
+			</form>
 			<button id="add-link" class="add-link-btn">+ ADD</button>
 		</section>
 
